@@ -1,0 +1,5 @@
+# Get your API keys from http://trello.com/app-key.
+# Get you member token acessing trello.com/1/authorize, with GET parameters described at https://trello.com/docs/gettingstarted/authorize.html
+trello:
+  api_key: ''
+  member_token: ''
