@@ -1,10 +1,10 @@
 #!/usr/bin/env ruby
 
-require 'date'
 require 'trello'
 require 'yaml'
 
 class Report
+
   attr_reader :today, :board_name
   attr_accessor :report
 
@@ -15,64 +15,92 @@ class Report
   end
 
   def generate
-    get_cards
+    @report = File.new("#{board_name}-report-#{today}.md", "w")
+    print_report
+    report.close
+  end
 
-    self.report = File.new("#{board_name}-report-#{today}.md", "w")
-
-    self.report.puts("### Sprint Report")
-    self.report.puts("### Overview")
-
+  def print_report
+    title
+    burndown
+    overview
     not_done
     done
     bugs
     retrospective
-
-    report.close
   end
 
   private
+
+  def burndown
+    report.puts("\n### Sprint Burndown")
+    report.puts("\n### Release Burndown")
+  end
+
+  def overview
+    report.puts("\n### Overview")
+  end
+
+  def title
+    report.puts("### Report - #{@board_name}")
+  end
+
   def retrospective
-    self.report.puts("\n#### Retrospectiva")
-    self.report.puts("**Negativos**")
-    self.report.puts("**Positivos**")
+    report.puts("\n#### Retrospectiva")
+    report.puts("**Negativos**")
+    report.puts("**Positivos**")
   end
 
   def not_done
-    self.report.puts("\n### Not Done")
-    @doing_cards.each { |card| self.report.puts(" - #{card.name}") }
-    @todo_cards.each { |card| self.report.puts(" - #{card.name}") }
+    report.puts("\n### Not Done")
+    rprint doing_cards
+    rprint todo_cards
   end
 
   def done
-    self.report.puts("\n### Done")
-    @done_cards.each { |card| self.report.puts(" - #{card.name}") }
+    report.puts("\n### Done")
+    rprint done_cards
   end
 
   def bugs
     report.puts("\n### Bugs")
-    @done_cards.each do |card|
-      report.puts(" - #{card.name}") if bug?(card)
-    end
+    rprint bug_cards
   end
 
-  def bug?(card)
-    card.name =~ /\[BUG\]/i
+  def bug_cards
+    @bug_cards ||= done_cards.find_all { |card| card.name =~ /\[BUG\]/i }
   end
 
-  def get_cards
-    board = Trello::Board.all.find { |x| x.name == @board_name }
-    board.lists.each do |list|
-      case list.name
-      when /^\[DONE\]/
-        @done_cards = list.cards
-      when /^\[Q\.A\]/
-        @qa_cards = list.cards
-      when /^\[DOING\]/
-        @doing_cards = list.cards
-      when /^\[TODO\]/
-        @todo_cards = list.cards
-      end
-    end
+  def done_cards
+    @done_cards ||= get_cards(/^\[DONE\]/)
+  end
+
+  def qa_cards
+    @qa_cards ||= get_cards(/^\[Q\.A\]/)
+  end
+
+  def doing_cards
+    @doing_cards ||= get_cards(/^\[DOING\]/)
+  end
+
+  def todo_cards
+    @todo_cards ||= get_cards(/^\[TODO\]/)
+  end
+
+  def get_cards(list_name)
+    lists.detect { |list| list.name =~ list_name }.cards
+  end
+
+  def rprint(cards)
+    cards.each { |card| report.puts(" - #{card.name}") }
+  end
+
+  def lists
+    @lists ||= board.lists
+  end
+
+  def board
+    @board ||= Trello::Board.all.find { |x| x.name == @board_name }
   end
 
   def configure_trello_client
