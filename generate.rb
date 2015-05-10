@@ -101,7 +101,7 @@ class Report
 
   def rprint(cards)
     cards.each do |card|
-      link = card.desc.split("\n").blank? ? card.url : card.desc.split("\n").first
+      link = card.desc.split("\n").first || card.url
       report.puts(" - [#{card.name}](#{link})")
     end
   end
