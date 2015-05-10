@@ -30,6 +30,34 @@ class Report
     retrospective
   end
 
+  def lists
+    @lists ||= board.lists
+  end
+
+  def board
+    @board ||= Trello::Board.all.find { |x| x.name == @board_name }
+  end
+
+  def bug_cards
+    @bug_cards ||= done_cards.find_all { |card| card.name =~ /\[BUG\]/i }
+  end
+
+  def done_cards
+    @done_cards ||= get_cards(/^\[DONE\]/)
+  end
+
+  def qa_cards
+    @qa_cards ||= get_cards(/^\[Q\.A\]/)
+  end
+
+  def doing_cards
+    @doing_cards ||= get_cards(/^\[DOING\]/)
+  end
+
+  def todo_cards
+    @todo_cards ||= get_cards(/^\[TODO\]/)
+  end
+
   private
 
   def burndown
@@ -67,40 +95,15 @@ class Report
     rprint bug_cards
   end
 
-  def bug_cards
-    @bug_cards ||= done_cards.find_all { |card| card.name =~ /\[BUG\]/i }
-  end
-
-  def done_cards
-    @done_cards ||= get_cards(/^\[DONE\]/)
-  end
-
-  def qa_cards
-    @qa_cards ||= get_cards(/^\[Q\.A\]/)
-  end
-
-  def doing_cards
-    @doing_cards ||= get_cards(/^\[DOING\]/)
-  end
-
-  def todo_cards
-    @todo_cards ||= get_cards(/^\[TODO\]/)
-  end
-
   def get_cards(list_name)
     lists.detect { |list| list.name =~ list_name }.cards
   end
 
   def rprint(cards)
-    cards.each { |card| report.puts(" - #{card.name}") }
-  end
-
-  def lists
-    @lists ||= board.lists
-  end
-
-  def board
-    @board ||= Trello::Board.all.find { |x| x.name == @board_name }
+    cards.each do |card|
+      link = card.desc.split("\n").blank? ? card.url : card.desc.split("\n").first
+      report.puts(" - [#{card.name}](#{link})")
+    end
   end
 
   def configure_trello_client
