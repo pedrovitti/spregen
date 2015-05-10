@@ -96,7 +96,11 @@ class Report
   end
 
   def get_cards(list_name)
-    lists.detect { |list| list.name =~ list_name }.cards
+    card_list = lists.detect { |list| list.name =~ list_name }
+
+    card_list.cards.reject do |card|
+      card.labels.find { |label| label.name == 'Skip Report' }
+    end
   end
 
   def rprint(cards)
