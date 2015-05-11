@@ -6,3 +6,7 @@
 trello:
   api_key:
   member_token:
+
+source: trello
+template: default
+board_name: <%= ENV['BOARD'] %>
