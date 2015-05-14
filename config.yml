@@ -7,6 +7,10 @@ trello:
   api_key:
   member_token:
 
+google_drive:
+  client_id:
+  client_secret:
+
 source: trello
 template: default
 board_name: <%= ENV['BOARD'] %>
