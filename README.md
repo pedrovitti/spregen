@@ -12,8 +12,8 @@ Sprint Report Generator
   You should see a page asking you to authorize your Trello application. Click "allow" and you should see a second page with a long alphanumeric string. This is your member token.
 
 #### Lists and Cards configuration
- - The name of trello lists should have contain following strings: [TODO], [DOING], [Q.A.], [DONE].
- - Bug cards should have contain "[Bug]" in name.
+ - The name of trello lists must contain following strings: [TODO], [DOING], [Q.A.], [DONE].
+ - Bug cards must contain "[Bug]" in name.
  - To skip a card from report, you must add label "Skip Report" to card.
  - Any link (github PR, etc) must be the first line on card description.
 
