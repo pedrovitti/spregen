@@ -15,7 +15,7 @@ module Spregen
     end
 
     def generate
-      file << print_report
+      file.write print_report
       file.close
     end
 
@@ -25,7 +25,7 @@ module Spregen
     end
 
     def print_report
-      puts Spregen::Template.build(binding)
+      Spregen::Template.build(binding)
     end
 
     def source

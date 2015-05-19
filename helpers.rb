@@ -2,7 +2,7 @@ module Spregen
   module Helpers
 
     def file
-      @file ||= File.new("#{@board.name}-report-#{today}.md", "w")
+      @file ||= File.open("#{@board.name}-report-#{today}.md", "w")
     end
 
     def rprint(cards, buffer = "")
