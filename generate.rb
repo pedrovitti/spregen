@@ -14,5 +14,5 @@ unless ARGV[0]
   puts "Usage: #{$0} [board-name]"
   abort
 end
-
+Spregen::Config.configure_trello_client
 Spregen::Report.new(board_name: ARGV[0]).generate

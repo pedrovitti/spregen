@@ -4,14 +4,12 @@ require_relative 'helpers'
 
 module Spregen
   class Report
-
     include Spregen::Helpers
 
     attr_accessor :report
 
     def initialize(configuration = {})
-      Spregen::Config.configure_trello_client
-      @board = Spregen::Board.new(configuration[:board_name])
+      @source = Spregen::Board.new(configuration)
     end
 
     def generate
@@ -33,22 +31,21 @@ module Spregen
     end
 
     def title
-      "Report #{@board.name}"
+      "Report #{@source.name}"
     end
 
     def not_done
-      buffer = ""
-      rprint @board.doing_cards, buffer
-      rprint @board.todo_cards, buffer
+      buffer = ''
+      rprint @source.doing_cards, buffer
+      rprint @source.todo_cards, buffer
     end
 
     def done
-      rprint @board.done_cards
+      rprint @source.done_cards
     end
 
     def bugs
-      rprint @board.bug_cards
+      rprint @source.bug_cards
     end
-
   end
 end

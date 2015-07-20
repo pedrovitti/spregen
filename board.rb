@@ -1,10 +1,9 @@
 module Spregen
   class Board
-
     attr_accessor :name
 
-    def initialize(board_name)
-      self.name = board_name
+    def initialize(configuration)
+      self.name = configuration[:board_name]
     end
 
     def lists
@@ -44,8 +43,5 @@ module Spregen
         card.labels.find { |label| label.name == 'Skip Report' }
       end
     end
-
-
   end
-
 end
