@@ -16,7 +16,7 @@ gem install ./spregen-0.0.1.gem
   ```bash
 spregen generate 'My board'
   ```
-  This will generate the report file in the current dir.
+  This will generate the report file in the current dir. Open your favorite text editor and be happy :D
 
 #### Conventions
  - The name of trello lists must contain following strings: [TODO], [DOING], [Q.A.], [DONE].
