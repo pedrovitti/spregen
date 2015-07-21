@@ -23,7 +23,7 @@ module Spregen
     end
 
     def qa_cards
-      @qa_cards ||= get_cards(/^\[Q\.A\]/i)
+      @qa_cards ||= get_cards(/^\[Q\.A\.\]/i)
     end
 
     def doing_cards

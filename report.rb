@@ -47,5 +47,9 @@ module Spregen
     def bugs
       rprint @source.bug_cards
     end
+
+    def qa
+      rprint @source.qa_cards
+    end
   end
 end
