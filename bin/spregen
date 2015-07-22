@@ -8,7 +8,7 @@ program :version, '0.0.1'
 program :description, 'Generate Sprint Reports from your Trello board.'
 
 command :generate do |c|
-  c.syntax = 'spregen generate board'
+  c.syntax = 'spregen generate <board-name>'
   c.description = 'Generate the report'
   c.action do |args, _|
     fail 'You have to specify the board name' unless args.first
@@ -24,6 +24,6 @@ command :configure do |c|
     apikey = ask('Apikey: ')
     member_token = ask('Member token: ')
     Spregen::Config.create_config_file(apikey, member_token)
-    puts 'Config file generated.'
+    puts 'Config file generated at ~/.spregen-config.yml'
   end
 end
