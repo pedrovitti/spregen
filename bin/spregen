@@ -1,0 +1,29 @@
+#!/usr/bin/env ruby
+
+require 'commander/import'
+require 'spregen'
+
+program :name, 'Spregen'
+program :version, '0.0.1'
+program :description, 'Generate Sprint Reports from your Trello board.'
+
+command :generate do |c|
+  c.syntax = 'spregen generate <board-name>'
+  c.description = 'Generate the report'
+  c.action do |args, _|
+    fail 'You have to specify the board name' unless args.first
+    Spregen::Config.configure_trello_client
+    Spregen::Report.new(board_name: args.first).generate
+  end
+end
+
+command :configure do |c|
+  c.syntax = 'spregen configure'
+  c.description = 'Generate the spregen config file'
+  c.action do |_, _|
+    apikey = ask('Apikey: ')
+    member_token = ask('Member token: ')
+    Spregen::Config.create_config_file(apikey, member_token)
+    puts 'Config file generated at ~/.spregen-config.yml'
+  end
+end

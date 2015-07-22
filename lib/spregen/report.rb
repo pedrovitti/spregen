@@ -1,6 +1,7 @@
 require_relative 'board'
 require_relative 'burndown'
 require_relative 'helpers'
+require_relative 'template'
 
 module Spregen
   class Report
