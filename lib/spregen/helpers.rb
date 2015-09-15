@@ -1,7 +1,7 @@
 module Spregen
   module Helpers
 
-    ESTIMATE_POINTS_PATTERN = /\(\d(\.\d)?\)(?<card_name>.+)\[\d(\.\d)?\]$/
+    ESTIMATE_POINTS_PATTERN = /\(\d(\.\d)?\)\s?(?<card_name>.+)\[\d(\.\d)?\]$/
 
     def file
       @file ||= File.open("#{@source.name}-report-#{today}.md", "w")
