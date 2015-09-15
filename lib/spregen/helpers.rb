@@ -1,7 +1,7 @@
 module Spregen
   module Helpers
 
-    ESTIMATE_POINTS_PATTERN = /\(\d(\.\d)?\)(.+)\[\d(\.\d)?\]$/
+    ESTIMATE_POINTS_PATTERN = /\(\d(\.\d)?\)(?<card_name>.+)\[\d(\.\d)?\]$/
 
     def file
       @file ||= File.open("#{@source.name}-report-#{today}.md", "w")
@@ -23,8 +23,8 @@ module Spregen
     end
 
     private
-    def remove_estimate_points(card_name)
-      card_name.match(ESTIMATE_POINTS_PATTERN).match(2)
+    def remove_estimate_points(card_title)
+      ESTIMATE_POINTS_PATTERN.match(card_title)[:card_name]
     end
   end
 end
