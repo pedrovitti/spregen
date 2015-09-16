@@ -3,8 +3,7 @@ Spregen generates Sprint Reports using markdown based on your Trello board.
 
 #### Install
   ```bash
-gem build spregen.gemspec
-gem install ./spregen-0.0.1.gem
+gem install spregen
   ```
 
 #### Configuration
